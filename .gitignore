@@ -1,0 +1,14 @@
+.DS_Store
+
+# Juego y archivos de terceros: no se suben
+game/
+original/
+downloads/
+dump/
+tools/
+templates/
+
+# data.win completos (son el juego entero)
+build/*.win
+dist/*
+!dist/FourLayersDownCoop-v1.0-xdelta.zip
