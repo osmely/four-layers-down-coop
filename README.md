@@ -11,6 +11,8 @@ Brave Tower gets a new **"Co-op Mode"** card:
 - Co-op runs are saved and can be continued.
 
 ## Download and install
+Get it on **GameBanana: https://gamebanana.com/mods/735142**
+
 The release package is [`dist/FourLayersDownCoop-v1.1-xdelta.zip`](dist/FourLayersDownCoop-v1.1-xdelta.zip): an `.xdelta` patch for DeltaPatcher plus a README.txt with install steps. It applies to the original v2.1.5 `data.win`, whose SHA-256 is `c254b690b0e2ac7f52914fecc24d4753106a3daf893b11252c3c43ec5ae0df5b`.
 
 ## Layout

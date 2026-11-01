@@ -1,6 +1,6 @@
 # Mod: "Four Layers Down Co-op" (main player + helper on one keyboard)
 
-Public name (GameBanana): **Four Layers Down Co-op v1.1**. In game the card still says "Co-op Mode". Release package: `dist/FourLayersDownCoop-v1.1-xdelta.zip` (`.xdelta` patch for DeltaPatcher, made with `xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.1.xdelta`). Full `data.win`, for private testing only: `dist/FourLayersDownCoop-v1.1.zip`.
+Public name (GameBanana): **Four Layers Down Co-op v1.1**, published at https://gamebanana.com/mods/735142. In game the card still says "Co-op Mode". Release package: `dist/FourLayersDownCoop-v1.1-xdelta.zip` (`.xdelta` patch for DeltaPatcher, made with `xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.1.xdelta`). Full `data.win`, for private testing only: `dist/FourLayersDownCoop-v1.1.zip`.
 
 For Five Nights at Frickbear's 3 **v2.1.5** (4LD). It **replaces** the `normal-mode-button` mod: both start from the original `data.win`, so they can't be combined.
 
