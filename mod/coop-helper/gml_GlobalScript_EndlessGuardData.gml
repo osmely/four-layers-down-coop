@@ -29,7 +29,28 @@ function guard_ability(arg0)
     {
         return global.CustomNightGuardAbility == arg0;
     }
+    if (coop_overridden(arg0))
+    {
+        return false;
+    }
     return functional_guard_id(global.Guard) == arg0 || coop_ability(arg0);
+}
+
+function coop_night_rule(arg0)
+{
+    return arg0 == UnknownEnum.Value_8 || arg0 == UnknownEnum.Value_17 || arg0 == UnknownEnum.Value_19;
+}
+
+function coop_overridden(arg0)
+{
+    if (!global.FourLayersDownMode || !global.ModHelperMode || global.Night != "Endless" || array_length(global.ModCoopGuards) < 2 || !coop_night_rule(arg0))
+    {
+        return false;
+    }
+    var Main = global.ModCoopGuards[0];
+    var Helper = global.ModCoopGuards[1];
+    var HelperRule = functional_guard_id(Helper);
+    return functional_guard_id(Main) == arg0 && HelperRule != arg0 && coop_night_rule(HelperRule) && array_contains(global.Lives, Helper);
 }
 
 function coop_ability(arg0)
