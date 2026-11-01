@@ -33,13 +33,10 @@ if (!Freeze || instance_exists(oJumpscarePhantoms))
             {
                 sprite_delete(HelperFaceSprites);
             }
-            HelperFaceSprites = import_sprites_solo(CoopFace, "selection.png", sNightGuardFacesSelection, 2);
+            HelperFaceSprites = import_sprites_solo(CoopFace, "reflection.png", get_guard_reflection_sprite(CoopFace), 2);
             HelperFaceGuard = CoopFace;
         }
-        var HelperScale = 0.85;
-        var HelperY = 360 - (360 * HelperScale);
-        var HelperTop = max(0, (CamTop - HelperY) / HelperScale);
-        draw_sprite_part_ext(HelperFaceSprites, CoopFace * 2, 0, HelperTop, 480, 360 - HelperTop, 630, HelperY + (HelperTop * HelperScale), -HelperScale, HelperScale, c_white, 0.25 * CamAlpha);
+        draw_sprite_part(HelperFaceSprites, (CoopFace * 2) + (BossMode != UnknownEnum.Value_0 || Scared), 0, CamTop, 640, 360 - CamTop, 100, CamTop);
     }
     draw_set_alpha(1);
     if (global.CamUp && !ShowMalhare)

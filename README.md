@@ -1,35 +1,34 @@
 # Four Layers Down Co-op
 
-Mod de cooperativo local para **Five Nights at Frickbear's 3 + Four Layers Down v2.1.5** (Windows, GameMaker), de SpookyRick.
-*Local co-op mod for Brave Tower: a main player and a helper on one keyboard.*
+Local co-op mod for **Five Nights at Frickbear's 3 + Four Layers Down v2.1.5** (Windows, GameMaker) by SpookyRick: a main player and a helper share one keyboard in Brave Tower.
 
-En Brave Tower aparece la tarjeta **"Co-op Mode"**:
+Brave Tower gets a new **"Co-op Mode"** card:
 
-- Cada jugador elige su guardia (sin repetir) y hay 3 vidas compartidas.
-- El ayudante, con las flechas, maneja las puertas (← →), la máscara (↓) y el ventilador (↑).
-- El guardia activo se cambia en la pantalla de animatrónicos, como en Party Mode. Las pasivas de Jeremy, Vanessa, Michael y Vannabelle son solo del guardia activo; las demás cuentan para los dos.
-- El guardia del ayudante aparece en el reflejo del monitor, a la derecha del principal.
-- La partida Co-op se guarda y se puede continuar.
+- Each player picks their own guard (no duplicates), with 3 shared lives.
+- The helper uses the arrow keys for the doors (← →), the mask (↓) and the fan (↑).
+- The active guard is switched on the animatronic selection screen, like Party Mode. Jeremy, Vanessa, Michael and Vannabelle's roster passives only apply to the active guard; the other passives apply to both.
+- The helper's guard shows up in the monitor reflection, to the right of the main player.
+- Co-op runs are saved and can be continued.
 
-## Descarga e instalación
-El paquete es [`dist/FourLayersDownCoop-v1.0-xdelta.zip`](dist/FourLayersDownCoop-v1.0-xdelta.zip): un parche `.xdelta` para DeltaPatcher, con README.txt en inglés y LEEME.txt en español. Se aplica sobre el `data.win` original v2.1.5, cuyo SHA-256 es `c254b690b0e2ac7f52914fecc24d4753106a3daf893b11252c3c43ec5ae0df5b`.
+## Download and install
+The release package is [`dist/FourLayersDownCoop-v1.1-xdelta.zip`](dist/FourLayersDownCoop-v1.1-xdelta.zip): an `.xdelta` patch for DeltaPatcher plus a README.txt with install steps. It applies to the original v2.1.5 `data.win`, whose SHA-256 is `c254b690b0e2ac7f52914fecc24d4753106a3daf893b11252c3c43ec5ae0df5b`.
 
-## Estructura
-| Ruta | Contenido |
+## Layout
+| Path | Contents |
 |---|---|
-| `mod/coop-helper/` | Scripts GML del mod y su [README](mod/coop-helper/README.md) técnico |
-| `mod/normal-mode-button/` | Primer mod de prueba: botón "Normal Mode" en Brave Tower |
-| `build/FourLayersDownCoop-v1.0.xdelta` | Parche de la v1.0 |
-| `INVESTIGACION_MODDING.md` | Investigación, herramientas, flujo de trabajo y decisiones de diseño |
+| `mod/coop-helper/` | The mod's GML scripts and its technical [README](mod/coop-helper/README.md) |
+| `mod/normal-mode-button/` | First test mod: a "Normal Mode" button in Brave Tower |
+| `build/FourLayersDownCoop-v1.1.xdelta` | The v1.1 patch |
+| `MODDING_RESEARCH.md` | Research notes, tools, workflow and design decisions |
 
-El juego, el código decompilado, los `data.win` completos y las herramientas **no** están en el repositorio (ver `.gitignore`).
+The game, the decompiled code, full `data.win` files and the tools are **not** in this repository (see `.gitignore`).
 
-## Compilar
-Se necesitan [UndertaleModTool CLI](https://github.com/UnderminersTeam/UndertaleModTool) (en `tools/utmt-cli/`), el `data.win` original en `original/` y `xdelta3`. El comando de compilación está en [mod/coop-helper/README.md](mod/coop-helper/README.md). Para crear el parche:
+## Building
+You need the [UndertaleModTool CLI](https://github.com/UnderminersTeam/UndertaleModTool) (in `tools/utmt-cli/`), the original `data.win` in `original/`, and `xdelta3`. The build command is in [mod/coop-helper/README.md](mod/coop-helper/README.md). To create the patch:
 
 ```bash
-xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.0.xdelta
+xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.1.xdelta
 ```
 
-## Créditos
-Five Nights at Frickbear's 3 pertenece a SpookyRick. Este es un mod no oficial de fans.
+## Credits
+Five Nights at Frickbear's 3 belongs to SpookyRick. This is an unofficial fan mod.

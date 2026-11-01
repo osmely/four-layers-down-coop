@@ -1,26 +1,26 @@
-# Mod: botón "Normal Mode" en Four Layers Down
+# Mod: "Normal Mode" button in Four Layers Down
 
-Para Five Nights at Frickbear's 3 **v2.1.5** (4LD).
+For Five Nights at Frickbear's 3 **v2.1.5** (4LD).
 
-## Qué hace
-En la pantalla de selección de modo de **Brave Tower** (4LD), que trae *Solo Mode*, *Party Mode* y *Daily Challenge*, se añade un **cuarto botón, "Normal Mode"**, con el logo de Frickbear's 3.
-Al pulsarlo se va directo al menú del juego base, ya en **New Game → Normal Mode → selección de guardia**, sin la intro del título ni el "Press space!".
-Desde ahí el flujo es el del juego original: eliges guardia, luego dificultad si es un guardia personalizado, y empieza la partida.
+## What it does
+The **Brave Tower** (4LD) mode picker, which has *Solo Mode*, *Party Mode* and *Daily Challenge*, gets a **fourth button, "Normal Mode"**, with the Frickbear's 3 logo.
+Clicking it goes straight to the base game's menu, already at **New Game → Normal Mode → guard select**, skipping the title intro and "Press space!".
+From there the flow is the original game's: pick a guard, then a difficulty if it's a custom guard, and the night starts.
 
-- Las 4 tarjetas pasan de una fila de 3 a una **cuadrícula de 2×2**.
-- "Normal Mode" siempre está desbloqueado.
-- Si te arrepientes, Esc/atrás desde la selección de guardia vuelve al título del juego base.
-- ⚠️ Igual que *New Game* en el juego original, **empezar una partida reemplaza la partida de la historia en curso**.
+- The 4 cards go from a row of 3 to a **2×2 grid**.
+- "Normal Mode" is always unlocked.
+- Esc/back from guard select returns to the base game's title screen.
+- ⚠️ Just like *New Game* in the original game, **starting a run replaces the story save in progress**.
 
-## Scripts modificados
-| Script | Cambio |
+## Modified scripts
+| Script | Change |
 |---|---|
-| `gml_Object_oEndless_ModePicker_Create_0` | 4.º título, descripción y `UnlockedArray` |
-| `gml_Object_oEndless_ModePicker_Draw_0` | Cuadrícula de 2×2; la tarjeta 4 dibuja `sGameTitle` al 40 %; al hacer clic: `global.ModStartNormalMode = true` y `room_goto(TitleScreenMap)` |
-| `gml_Object_oCameraTitleScreen_Create_0` | Con la bandera activa, se salta la intro (Frame 149, título ya fuera de pantalla, arranca la música) |
-| `gml_Object_oTitleMenu_Create_0` | Con la bandera activa en `TitleScreenMap`, abre `goto_menu("Normal Mode", 0)` en vez de `"Title"` y apaga la bandera |
+| `gml_Object_oEndless_ModePicker_Create_0` | 4th title, description and `UnlockedArray` |
+| `gml_Object_oEndless_ModePicker_Draw_0` | 2×2 grid; card 4 draws `sGameTitle` at 40 %; on click: `global.ModStartNormalMode = true` and `room_goto(TitleScreenMap)` |
+| `gml_Object_oCameraTitleScreen_Create_0` | With the flag set, skips the intro (Frame 149, title already off screen, music starts) |
+| `gml_Object_oTitleMenu_Create_0` | With the flag set in `TitleScreenMap`, opens `goto_menu("Normal Mode", 0)` instead of `"Title"` and clears the flag |
 
-## Compilar (desde la raíz del proyecto)
+## Build (from the project root)
 ```bash
 rm -f build/data.win
 M=mod/normal-mode-button
@@ -28,14 +28,14 @@ tools/utmt-cli/UndertaleModCli replace original/data.win -o build/data.win \
   -c "gml_Object_oEndless_ModePicker_Create_0=$M/gml_Object_oEndless_ModePicker_Create_0.gml" \
   -c "gml_Object_oEndless_ModePicker_Draw_0=$M/gml_Object_oEndless_ModePicker_Draw_0.gml" \
   -c "gml_Object_oCameraTitleScreen_Create_0=$M/gml_Object_oCameraTitleScreen_Create_0.gml" \
-  -c "gml_Object_oTitleMenu_Create_0=$M/gml_Object_oTitleMenu_Create_0.gml"
+  -c "gml_Object_oTitleMenu_Create_0=$M/gml_Object_oTitleMenu_Create_0.gml" </dev/null
 ```
 
-## Instalar (en Windows)
-1. Haz una copia del `data.win` original de tu carpeta del juego.
-2. Reemplázalo por `build/data.win`.
-3. Abre el juego → Play Four Layers Down → Brave Tower → (New Run) → aparece la pantalla de modos con 4 botones.
+## Install (on Windows)
+1. Back up the original `data.win` in your game folder.
+2. Replace it with `build/data.win`.
+3. Open the game → Play Four Layers Down → Brave Tower → (New Run) → the mode picker shows 4 buttons.
 
-## Estado
-- ✅ Compila. Al decompilar el `build/data.win`, los 4 scripts salen idénticos a los fuentes.
-- ❓ **Sin probar dentro del juego** (hace falta Windows). Hay que revisar: que la cuadrícula se vea bien y no tape la descripción de abajo, que el logo se vea bien al 40 %, y que el salto al menú de guardias funcione.
+## Status
+- ✅ Compiles. Decompiling `build/data.win` gives back the 4 scripts identical to the sources.
+- ✅ **Tested on Windows: it works** (October 31, 2026). Superseded by Co-op Mode.
