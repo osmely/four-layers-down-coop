@@ -12,3 +12,6 @@ templates/
 build/*.win
 dist/*
 !dist/FourLayersDownCoop-v1.1-xdelta.zip
+
+# Game sprites used by media/render.html (export with: UndertaleModCli dump original/data.win -o <dir> --sprites)
+media/assets/

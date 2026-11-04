@@ -1,0 +1,121 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+html,body{margin:0;background:#000;width:1280px;height:720px;overflow:hidden}
+canvas{image-rendering:pixelated;width:1280px;height:720px;display:block}
+#assets{display:none}
+</style></head><body>
+<canvas id="c" width="640" height="360"></canvas>
+<div id="assets"></div>
+<script>
+const ORDER = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ÁÉÍÓÚÑáéíóúñ¿¡♫";
+const scene = new URLSearchParams(location.search).get("scene") || "menu";
+const needed = ["sEndless_ModeSelect_0","sEndless_ModeSelect_1","sEndless_ModeSelect_2","sEndless_ModeSelect_3","sEndless_ModeSelect_4",
+  "sControlPanel_GridTiles_RED_0","sUIBox_Black_0","sUIBox_Black_2","sCustomNightGuardFaces_1",
+  "sNightGuardFacesSelection_0","sNightGuardFacesSelection_2","sNightGuardFacesSelection_4","sNightGuardFacesSelection_6","sNightGuardFacesSelection_14"];
+for (let i = 0; i < ORDER.length; i++) { needed.push("sFontColor_" + i, "sFont_" + i); }
+const img = {};
+const box = document.getElementById("assets");
+for (const n of needed) { const im = new Image(); im.src = "assets/" + n + ".png"; box.appendChild(im); img[n] = im; }
+
+const c = document.getElementById("c"), g = c.getContext("2d");
+g.imageSmoothingEnabled = false;
+
+// proportional sprite font: glyph width = opaque bbox, 1px separation
+const glyph = {};
+function measureGlyphs(prefix) {
+  const t = document.createElement("canvas"); t.width = 16; t.height = 16; const tg = t.getContext("2d");
+  for (let i = 0; i < ORDER.length; i++) {
+    const im = img[prefix + i]; if (!im || !im.naturalWidth) continue;
+    tg.clearRect(0, 0, 16, 16); tg.drawImage(im, 0, 0);
+    const d = tg.getImageData(0, 0, 16, 16).data; let l = 16, r = -1;
+    for (let x = 0; x < 16; x++) for (let y = 0; y < 16; y++) if (d[(y * 16 + x) * 4 + 3] > 0) { l = Math.min(l, x); r = Math.max(r, x); }
+    glyph[prefix + i] = r < 0 ? { l: 0, w: 4 } : { l, w: r - l + 1 };
+  }
+}
+function textWidth(s, prefix = "sFontColor_") {
+  let w = 0; for (const ch of s) { const k = ORDER.indexOf(ch); const gl = glyph[prefix + k] || { w: 4 }; w += gl.w + 1; } return Math.max(0, w - 1);
+}
+function drawLine(s, x, y, prefix = "sFontColor_", scale = 1) {
+  let cx = x;
+  for (const ch of s) {
+    const k = ORDER.indexOf(ch); const gl = glyph[prefix + k] || { l: 0, w: 4 };
+    if (k >= 0 && ch !== " ") g.drawImage(img[prefix + k], gl.l, 0, gl.w, 16, cx, y, gl.w * scale, 16 * scale);
+    cx += (gl.w + 1) * scale;
+  }
+}
+function wrap(s, maxW) {
+  const out = [];
+  for (const para of s.split("\n")) {
+    let line = "";
+    for (const word of para.split(" ")) {
+      const test = line ? line + " " + word : word;
+      if (textWidth(test) > maxW && line) { out.push(line); line = word; } else line = test;
+    }
+    out.push(line);
+  }
+  return out;
+}
+// halign center, like draw_text / draw_text_ext with fa_center
+function text(s, x, y, { prefix = "sFontColor_", sep = 15, w = 100000, scale = 1, outline = 0 } = {}) {
+  const lines = wrap(s, w);
+  lines.forEach((ln, i) => {
+    const lx = Math.round(x - textWidth(ln, prefix) * scale / 2), ly = y + i * sep * scale;
+    if (outline) for (let dir = 0; dir < 360; dir += 15) for (let b = 1; b <= outline; b++)
+      drawLine(ln, lx + Math.round(Math.cos(dir * Math.PI / 180) * b), ly - Math.round(Math.sin(dir * Math.PI / 180) * b), "sFont_", scale);
+    drawLine(ln, lx, ly, prefix, scale);
+  });
+  return lines.length;
+}
+function bg() {
+  const t = img.sControlPanel_GridTiles_RED_0;
+  for (let x = 0; x < 640; x += t.width) for (let y = 0; y < 360; y += t.height) g.drawImage(t, x, y);
+}
+function nine(im, x, y, w, h, b = 4) {
+  const W = im.width, H = im.height;
+  const sx = [0, b, W - b], sw = [b, W - 2 * b, b], dx = [x, x + b, x + w - b], dw = [b, w - 2 * b, b];
+  const sy = [0, b, H - b], sh = [b, H - 2 * b, b], dy = [y, y + b, y + h - b], dh = [b, h - 2 * b, b];
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) g.drawImage(im, sx[i], sy[j], sw[i], sh[j], dx[i], dy[j], dw[i], dh[j]);
+}
+
+function menu() {
+  bg();
+  const titles = ["Solo Mode", "Party Mode", "Daily Challenge", "Co-op Mode"];
+  const hovered = 3, timer = 0;
+  for (let i = 0; i < 4; i++) {
+    let bx = 116 + 224 * (i % 2), by = 36 + 140 * Math.floor(i / 2);
+    const dir = (timer + (bx + by) / -4) * Math.PI / 180;
+    bx = Math.round(bx + Math.round(Math.cos(dir) * 2)); by = Math.round(by - Math.round(Math.sin(dir) * 2));
+    g.drawImage(img["sEndless_ModeSelect_" + (i === hovered ? 4 : 3)], bx, by);
+    g.drawImage(img["sEndless_ModeSelect_" + (i === 3 ? 0 : i)], bx, by);
+    if (i === 3) text("2P", bx + 162, by + 8);
+    text(titles[i], bx + 92, by + 105);
+    if (i === 2) g.drawImage(img.sCustomNightGuardFaces_1, bx + 123, by + 47);
+  }
+  text("Two guards, 3 shared lives, one keyboard! P1: mouse & usual keys. Helper: arrows pick a guard and switch guards before the night. In the office: LEFT/RIGHT doors, DOWN mask, UP fan.",
+    320, 314, { w: 400, outline: 3 });
+}
+
+function info() {
+  bg();
+  text("FOUR LAYERS DOWN CO-OP", 320, 10, { scale: 2, outline: 3 });
+  text("Two players, one keyboard, one Brave Tower run", 320, 44, { outline: 2 });
+  const panel = (x, label, face, flip, lines) => {
+    nine(img.sUIBox_Black_0, x, 70, 290, 214);
+    if (flip) g.drawImage(img[face], 0, 0, 480, 360, x + 4 + 282 - 160, 74, 160, 120);
+    else g.drawImage(img[face], 0, 0, 480, 360, x + 4, 74, 160, 120);
+    text(label, flip ? x + 64 : x + 226, 112, { scale: 3, outline: 2 });
+    lines.forEach((l, i) => text(l, x + 145, 202 + i * 16));
+  };
+  panel(24, "1P", "sNightGuardFacesSelection_4", false, ["PLAYER 1 - MAIN", "Mouse + usual keys", "Monitor, cameras, flashlight", "Turn around, shops, menus", "Esc to pause"]);
+  panel(326, "2P", "sNightGuardFacesSelection_2", true, ["PLAYER 2 - HELPER", "Arrow keys, in the office", "LEFT / RIGHT = doors", "DOWN = mask    UP = fan", "Arrows also pick your guard"]);
+  text("3 shared lives - switch guards like Party Mode - passives combine - runs save", 320, 298, { w: 600, outline: 2 });
+  text("Patch for v2.1.5 (DeltaPatcher)  -  unofficial fan mod, game by SpookyRick", 320, 330, { w: 620, outline: 2 });
+}
+
+window.addEventListener("load", () => {
+  try {
+    measureGlyphs("sFontColor_"); measureGlyphs("sFont_");
+    (scene === "info" ? info : menu)();
+  } catch (e) { g.fillStyle = "#f00"; g.font = "16px sans-serif"; g.fillText(String(e), 10, 20); }
+});
+</script></body></html>

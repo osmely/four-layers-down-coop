@@ -22,6 +22,7 @@ The release package is [`dist/FourLayersDownCoop-v1.1-xdelta.zip`](dist/FourLaye
 | `mod/normal-mode-button/` | First test mod: a "Normal Mode" button in Brave Tower |
 | `build/FourLayersDownCoop-v1.1.xdelta` | The v1.1 patch |
 | `MODDING_RESEARCH.md` | Research notes, tools, workflow and design decisions |
+| `media/` | GameBanana images and page text. `render.html` redraws the images from game sprites (put the exported sprites in `media/assets/`, then open `render.html?scene=menu` or `?scene=info` in headless Chrome with `--allow-file-access-from-files --window-size=1280,720`) |
 
 The game, the decompiled code, full `data.win` files and the tools are **not** in this repository (see `.gitignore`).
 
