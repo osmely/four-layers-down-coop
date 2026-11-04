@@ -105,6 +105,40 @@ if (!Freeze || instance_exists(oJumpscarePhantoms))
         TokenBoxOffset += TokenBoxSpeed;
     }
     EntranceAlpha = max(EntranceAlpha - 0.016666666666666666, 0);
+    var WallsReady = instance_exists(oWall) && variable_instance_exists(oWall, "List_InFrontOfWall");
+    if (!variable_instance_exists(id, "HelperMonitorAnim"))
+    {
+        HelperMonitorAnim = 0;
+    }
+    HelperMonitorAnim += (((helper_active() && WallsReady && (global.TurnedAround || global.CamUp)) - HelperMonitorAnim) / 5);
+    if (HelperMonitorAnim > 0.01 && WallsReady)
+    {
+        var WallSize = 96;
+        var PanelW = (WallSize * 2) + 8;
+        var PanelH = WallSize + 6;
+        var PanelX = 636 - PanelW;
+        var PanelY = (338 - PanelH) + ((1 - HelperMonitorAnim) * (PanelH + 24));
+        if (!variable_instance_exists(id, "HelperMonitorSurface") || !surface_exists(HelperMonitorSurface))
+        {
+            HelperMonitorSurface = surface_create(WallSize * 2, WallSize * 2);
+        }
+        var Blue = make_color_rgb(40, 110, 255);
+        var LightBlue = make_color_rgb(140, 190, 255);
+        draw_rectangle_color(PanelX, PanelY, (PanelX + PanelW) - 1, (PanelY + PanelH) - 1, Blue, Blue, Blue, Blue, false);
+        draw_rectangle_color(PanelX, PanelY, (PanelX + PanelW) - 1, (PanelY + PanelH) - 1, LightBlue, LightBlue, LightBlue, LightBlue, true);
+        var OldFilter = gpu_get_tex_filter();
+        gpu_set_tex_filter(true);
+        var Walls = [oWall.SPRITE_WallLeft, oWall.SPRITE_WallRight];
+        var WallX = [576, 1600];
+        for (var w = 0; w < 2; w++)
+        {
+            surface_set_target(HelperMonitorSurface);
+            coop_draw_wall(Walls[w], WallX[w], 448, (WallSize * 2) / sprite_get_width(Walls[w]));
+            surface_reset_target();
+            draw_surface_ext(HelperMonitorSurface, PanelX + 3 + (w * (WallSize + 2)), PanelY + 3, 0.5, 0.5, 0, c_white, 1);
+        }
+        gpu_set_tex_filter(OldFilter);
+    }
 }
 if (Freezeframe != undefined)
 {

@@ -12,6 +12,10 @@ if (variable_instance_exists(id, "HelperFaceSprites"))
 {
     sprite_delete(HelperFaceSprites);
 }
+if (variable_instance_exists(id, "HelperMonitorSurface") && surface_exists(HelperMonitorSurface))
+{
+    surface_free(HelperMonitorSurface);
+}
 audio_bus_main.effects[0] = undefined;
 audio_bus_main.effects[1] = undefined;
 audio_bus_main.effects[2] = undefined;

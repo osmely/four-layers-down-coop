@@ -302,6 +302,30 @@ function helper_input(arg0, arg1)
     }
 }
 
+function coop_wall_layer(arg0, arg1, arg2, arg3, arg4)
+{
+    var W = sprite_get_width(arg1);
+    var H = sprite_get_height(arg1);
+    for (var n = 0; n < array_length(arg0); n++)
+    {
+        var i = layer_instance_get_instance(arg0[n]);
+        if (instance_exists(i) && sprite_exists(i.sprite_index) && i.bbox_right >= arg2 && i.bbox_left <= (arg2 + W) && i.bbox_bottom >= arg3 && i.bbox_top <= (arg3 + H))
+        {
+            draw_sprite_ext(i.sprite_index, i.image_index, (i.x - arg2) * arg4, (i.y - arg3) * arg4, i.image_xscale * arg4, i.image_yscale * arg4, -i.image_angle, i.image_blend, i.image_alpha);
+        }
+    }
+}
+
+function coop_draw_wall(arg0, arg1, arg2, arg3)
+{
+    draw_clear(c_black);
+    coop_wall_layer(layer_get_all_elements("Background"), arg0, arg1, arg2, arg3);
+    coop_wall_layer(oWall.List_BehindWall, arg0, arg1, arg2, arg3);
+    draw_sprite_ext(arg0, 0, 0, 0, arg3, arg3, 0, c_white, 1);
+    coop_wall_layer(oWall.List_OnWall, arg0, arg1, arg2, arg3);
+    coop_wall_layer(oWall.List_InFrontOfWall, arg0, arg1, arg2, arg3);
+}
+
 function is_mouse_input(arg0)
 {
     if (arg0 < 6)

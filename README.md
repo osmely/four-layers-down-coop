@@ -8,19 +8,21 @@ Brave Tower gets a new **"Co-op Mode"** card:
 - The helper uses the arrow keys for the doors (← →), the mask (↓) and the fan (↑).
 - The active guard is switched on the animatronic selection screen, like Party Mode. Jeremy, Vanessa, Michael and Vannabelle's roster passives only apply to the active guard; the other passives apply to both.
 - The helper's guard shows up in the monitor reflection, to the right of the main player.
+- When the main player turns around or opens the cameras, a small blue-framed monitor slides up in the bottom-right corner with both doors and vents, so the helper can keep watching them.
 - Co-op runs are saved and can be continued.
 
 ## Download and install
 Get it on **GameBanana: https://gamebanana.com/mods/735142**
 
-The release package is [`dist/FourLayersDownCoop-v1.1-xdelta.zip`](dist/FourLayersDownCoop-v1.1-xdelta.zip): an `.xdelta` patch for DeltaPatcher plus a README.txt with install steps. It applies to the original v2.1.5 `data.win`, whose SHA-256 is `c254b690b0e2ac7f52914fecc24d4753106a3daf893b11252c3c43ec5ae0df5b`.
+The release package is [`dist/FourLayersDownCoop-v1.2-xdelta.zip`](dist/FourLayersDownCoop-v1.2-xdelta.zip): an `.xdelta` patch for DeltaPatcher plus a README.txt with install steps. It applies to the original v2.1.5 `data.win`, whose SHA-256 is `c254b690b0e2ac7f52914fecc24d4753106a3daf893b11252c3c43ec5ae0df5b`.
 
 ## Layout
 | Path | Contents |
 |---|---|
 | `mod/coop-helper/` | The mod's GML scripts and its technical [README](mod/coop-helper/README.md) |
 | `mod/normal-mode-button/` | First test mod: a "Normal Mode" button in Brave Tower |
-| `build/FourLayersDownCoop-v1.1.xdelta` | The v1.1 patch |
+| `build/FourLayersDownCoop-v1.2.xdelta` | The v1.2 patch |
+| `dist/` | Release packages (v1.2 current; v1.1 kept for old download links) |
 | `MODDING_RESEARCH.md` | Research notes, tools, workflow and design decisions |
 | `media/` | GameBanana images and page text. `render.html` redraws the images from game sprites (put the exported sprites in `media/assets/`, then open `render.html?scene=menu` or `?scene=info` in headless Chrome with `--allow-file-access-from-files --window-size=1280,720`) |
 
@@ -30,7 +32,7 @@ The game, the decompiled code, full `data.win` files and the tools are **not** i
 You need the [UndertaleModTool CLI](https://github.com/UnderminersTeam/UndertaleModTool) (in `tools/utmt-cli/`), the original `data.win` in `original/`, and `xdelta3`. The build command is in [mod/coop-helper/README.md](mod/coop-helper/README.md). To create the patch:
 
 ```bash
-xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.1.xdelta
+xdelta3 -e -9 -S none -s original/data.win build/data.win build/FourLayersDownCoop-v1.2.xdelta
 ```
 
 ## Credits
